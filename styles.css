@@ -19,6 +19,8 @@ html, body {
   background: var(--bg);
   font-family: 'Inter', sans-serif;
   color: var(--text);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #game-container {
@@ -44,8 +46,8 @@ html, body {
 
 .hud-score {
   position: absolute;
-  top: 2.5vh;
-  left: 3vw;
+  top: max(2.5vh, env(safe-area-inset-top));
+  left: max(3vw, env(safe-area-inset-left));
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
   font-size: clamp(1.8rem, 5vw, 3.2rem);
@@ -70,8 +72,8 @@ html, body {
 
 .hud-high {
   position: absolute;
-  top: 2.5vh;
-  right: 3vw;
+  top: max(2.5vh, env(safe-area-inset-top));
+  right: max(3vw, env(safe-area-inset-right));
   text-align: right;
   font-family: 'Orbitron', sans-serif;
   font-weight: 700;
@@ -93,7 +95,7 @@ html, body {
 
 #mute-btn {
   position: absolute;
-  top: 2vh;
+  top: max(2vh, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
   pointer-events: auto;
@@ -117,7 +119,7 @@ html, body {
 
 #level-display {
   position: absolute;
-  bottom: 4vh;
+  bottom: max(4vh, calc(env(safe-area-inset-bottom) + 2vh));
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Orbitron', sans-serif;
@@ -215,12 +217,23 @@ html, body {
   margin-bottom: 3vh;
 }
 
+#title-overlay .start-btn {
+  margin-bottom: 1.5vh;
+  min-width: min(280px, 80vw);
+  min-height: 52px;
+  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+}
+
 #title-overlay .prompt {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(0.75rem, 2.5vw, 1rem);
-  letter-spacing: 0.25em;
-  animation: blink 1.2s ease-in-out infinite;
-  text-shadow: 0 0 15px var(--neon-cyan);
+  font-size: clamp(0.65rem, 2vw, 0.85rem);
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.desktop-only {
+  display: block;
 }
 
 @keyframes blink {
@@ -286,17 +299,90 @@ html, body {
   transform: scale(1.04);
 }
 
-@media (max-width: 600px) {
-  #dpad {
-    bottom: 16vh;
-    right: 3vw;
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  #title-overlay .game-title {
+    font-size: clamp(2rem, 11vw, 3.5rem);
+    margin-bottom: 0.5rem;
+  }
+
+  #title-overlay .subtitle {
+    font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+    margin-bottom: 2vh;
+    letter-spacing: 0.25em;
+  }
+
+  #title-overlay .start-btn {
+    min-width: min(300px, 88vw);
+    min-height: 56px;
+    padding: 1em 2em;
+    font-size: clamp(1rem, 4.5vw, 1.15rem);
+  }
+
+  #logo-canvas {
+    width: clamp(80px, 22vw, 120px);
+    height: clamp(80px, 22vw, 120px);
+    margin-bottom: 1.5vh;
   }
 
   .hud-score {
-    font-size: clamp(1.4rem, 6vw, 2rem);
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
   }
 
   .hud-high {
-    font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+    font-size: clamp(0.8rem, 3.5vw, 1rem);
+  }
+
+  #mute-btn {
+    width: clamp(44px, 10vw, 50px);
+    height: clamp(44px, 10vw, 50px);
+  }
+
+  #level-display {
+    bottom: max(22vh, calc(env(safe-area-inset-bottom) + 18vh));
+    font-size: clamp(0.7rem, 3vw, 0.9rem);
+  }
+
+  #dpad {
+    bottom: max(3vh, env(safe-area-inset-bottom));
+    right: max(3vw, env(safe-area-inset-right));
+    gap: 6px;
+    opacity: 1;
+  }
+
+  .dpad-btn {
+    width: clamp(52px, 14vw, 64px);
+    height: clamp(52px, 14vw, 64px);
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    border-radius: 12px;
+  }
+
+  .neon-btn {
+    min-height: 48px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  #title-overlay .game-title {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
+
+  #logo-canvas {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 0.5vh;
+  }
+
+  #level-display {
+    bottom: max(2vh, env(safe-area-inset-bottom));
+  }
+
+  #dpad {
+    bottom: 50%;
+    right: max(2vw, env(safe-area-inset-right));
+    transform: translateY(50%);
   }
 }

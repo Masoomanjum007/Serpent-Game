@@ -827,6 +827,9 @@
         const muted = AudioEngine.toggleMute();
         this.muteBtn.textContent = muted ? '🔇' : '🔊';
       });
+      document.getElementById('start-btn').addEventListener('click', () => {
+        if (gameState === 'IDLE') startGame();
+      });
       document.getElementById('restart-btn').addEventListener('click', () => {
         this.hideGameOver();
         startGame();
@@ -991,7 +994,14 @@
     renderer.setSize(w, h);
 
     const aspect = w / h;
-    const size = ORTHO_SIZE;
+    const isMobile = w < 768;
+    const isLandscape = w > h;
+    let size = ORTHO_SIZE;
+
+    if (isMobile) {
+      size = isLandscape ? 12.8 : 13.2;
+    }
+
     camera.left = -size * aspect;
     camera.right = size * aspect;
     camera.top = size;
