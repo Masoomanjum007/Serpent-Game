@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SERPENT 3D</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="hud">
+      <div class="hud-score">
+        <span class="label">SCORE</span>
+        <span id="score-value">0</span>
+      </div>
+      <div class="hud-high">
+        <span class="label">BEST</span>
+        <span id="high-value">0</span>
+      </div>
+      <button id="mute-btn" aria-label="Toggle sound">🔊</button>
+      <div id="level-display">LEVEL 1</div>
+
+      <div id="dpad">
+        <div class="dpad-btn empty"></div>
+        <button class="dpad-btn" data-dir="up" aria-label="Move up">▲</button>
+        <div class="dpad-btn empty"></div>
+        <button class="dpad-btn" data-dir="left" aria-label="Move left">◀</button>
+        <div class="dpad-btn empty"></div>
+        <button class="dpad-btn" data-dir="right" aria-label="Move right">▶</button>
+        <div class="dpad-btn empty"></div>
+        <button class="dpad-btn" data-dir="down" aria-label="Move down">▼</button>
+        <div class="dpad-btn empty"></div>
+      </div>
+    </div>
+
+    <div id="title-overlay" class="overlay">
+      <canvas id="logo-canvas"></canvas>
+      <div class="game-title">SERPENT 3D</div>
+      <div class="subtitle">NEON SYNTHWAVE EDITION</div>
+      <div class="prompt">PRESS ENTER TO PLAY</div>
+    </div>
+
+    <div id="gameover-overlay" class="overlay hidden">
+      <div class="go-title">GAME OVER</div>
+      <div class="go-score">SCORE: <span id="go-score">0</span></div>
+      <div class="go-high">BEST: <span id="go-high">0</span></div>
+      <button class="neon-btn" id="restart-btn">RESTART</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
