@@ -999,17 +999,18 @@
     const aspect = w / h;
     const isMobile = w < 768;
     const isLandscape = w > h;
-    const boardR = BOARD_HALF + BOARD_VIEW_PAD;
+    const pad = isMobile ? 2.0 : BOARD_VIEW_PAD;
+    const boardR = BOARD_HALF + pad;
     let halfH = Math.max(boardR, boardR / aspect);
 
     if (isMobile && !isLandscape) {
-      camLookZ = 4.2;
-      halfH *= 1.1;
+      camLookZ = 3.8;
+      halfH *= 0.93;
       camera.top = halfH * 0.72;
       camera.bottom = -halfH * 1.55;
     } else if (isMobile && isLandscape) {
       camLookZ = 2;
-      halfH *= 1.05;
+      halfH *= 0.96;
       camera.top = halfH * 0.85;
       camera.bottom = -halfH * 1.2;
     } else {
