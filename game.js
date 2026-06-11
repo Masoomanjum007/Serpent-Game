@@ -50,10 +50,13 @@
   scene.fog = new THREE.FogExp2(COLORS.bg, 0.04);
 
   const ORTHO_SIZE = 11.5;
+  const BOARD_VIEW_PAD = 2.4;
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
   camera.position.set(0, 20, 0);
   camera.lookAt(0, 0, 0);
   camera.up.set(0, 0, -1);
+
+  let camLookZ = 0;
 
   const ambientLight = new THREE.AmbientLight(0x6b3fa0, 0.5);
   scene.add(ambientLight);
@@ -996,16 +999,28 @@
     const aspect = w / h;
     const isMobile = w < 768;
     const isLandscape = w > h;
-    let size = ORTHO_SIZE;
+    const boardR = BOARD_HALF + BOARD_VIEW_PAD;
+    let halfH = Math.max(boardR, boardR / aspect);
 
-    if (isMobile) {
-      size = isLandscape ? 12.8 : 13.2;
+    if (isMobile && !isLandscape) {
+      camLookZ = 4.2;
+      halfH *= 1.1;
+      camera.top = halfH * 0.72;
+      camera.bottom = -halfH * 1.55;
+    } else if (isMobile && isLandscape) {
+      camLookZ = 2;
+      halfH *= 1.05;
+      camera.top = halfH * 0.85;
+      camera.bottom = -halfH * 1.2;
+    } else {
+      camLookZ = 0;
+      halfH = Math.max(ORTHO_SIZE, halfH);
+      camera.top = halfH;
+      camera.bottom = -halfH;
     }
 
-    camera.left = -size * aspect;
-    camera.right = size * aspect;
-    camera.top = size;
-    camera.bottom = -size;
+    camera.left = -halfH * aspect;
+    camera.right = halfH * aspect;
     camera.updateProjectionMatrix();
 
     resizeLogo();
@@ -1018,7 +1033,7 @@
     animTime += dt;
 
     camera.position.set(0, 20, 0);
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(0, 0, camLookZ);
 
     if (gameState === 'PLAYING' || gameState === 'DEAD') {
       snake.updateVisual(dt);
